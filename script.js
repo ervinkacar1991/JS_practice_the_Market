@@ -1,3 +1,5 @@
+let allTotal = 0;
+
 function addToCart(element) {
   let mainEl = element.closest(".single-item");
 
@@ -15,13 +17,16 @@ function addToCart(element) {
     price = parseInt(price);
     let total = price * parseInt(quantity);
 
-    console.log(total);
+    allTotal += total;
 
     cartItems.innerHTML += `<div class="cart-single-item">
     <h3>${name}</h3>
-    <p>${price} * ${quantity} = ${total}<p>
+    <p>${price} * ${quantity} = $<span>${total}</span><p>
+    <button onclick="removeFromCart(this)" class="remove-item">Ukloni</button>
 
     </div>`;
+
+    document.querySelector(".total").innerText = `Total: ${allTotal}`;
 
     element.innerText = "Dodato";
     element.setAttribute("disabled", "true");
@@ -31,4 +36,16 @@ function addToCart(element) {
 
   // let input = element.previousElementSibling;
   // console.log(input.value);
+}
+
+function removeFromCart(element) {
+  let mainEl = element.closest(".cart-single-item");
+  let price = mainEl.querySelector("p span").innerText;
+
+  price = parseInt(price);
+  allTotal -= price;
+  mainEl.remove();
+  document.querySelector(".total").innerText = `Total: ${allTotal}`;
+
+  console.log(price);
 }
